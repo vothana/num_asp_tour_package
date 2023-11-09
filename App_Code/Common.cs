@@ -34,8 +34,6 @@ public class Common
         return columnNames;
     }
 
-
-
     public static string ColumnName(string columnName)
     {
         return columnName.Replace("@", "");

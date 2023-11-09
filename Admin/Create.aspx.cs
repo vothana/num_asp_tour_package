@@ -48,7 +48,11 @@ public partial class Admin_Create : System.Web.UI.Page
 
     private void UploadPhoto()
     {
-        imgUp.SaveAs(Server.MapPath("~\\Images") + "/" + imgUp.FileName);
+        var folder = "~\\Images";
+        bool exists = System.IO.Directory.Exists(Server.MapPath(folder));
+        if (!exists)
+            System.IO.Directory.CreateDirectory(Server.MapPath(folder));
+        imgUp.SaveAs(Server.MapPath(folder) + "/" + imgUp.FileName);
     }
 
     private Dictionary<Column, object> SetValues()
