@@ -16,11 +16,28 @@ public partial class Admin_Create : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        MembershipUser currentUser = Membership.GetUser();
-        userName = currentUser.UserName;
+       // MembershipUser currentUser = Membership.GetUser();
+        //userName = currentUser.UserName;
+        userName = "Vothana";
 
         SetList(tourType, TABLE_TYPE, "TYPEID", "Type");
         SetList(category, TABLE_CATEGORY, "CATID", "Category");
+
+/*        if (!IsPostBack)
+        {
+            chkAgr.Checked = false;
+            cmdAddBtn.Enabled = false;
+        }*/
+    }
+
+    protected void chkAgr_CheckedChanged(object sender, EventArgs e)
+    {
+        Log("SSSSS: " + chkAgr.Checked);
+
+        if (chkAgr.Checked == true)
+            cmdAddBtn.Enabled = true;
+        else
+            cmdAddBtn.Enabled = false;
     }
 
     protected void CmdAdd_Click(object sender, EventArgs e)
@@ -37,7 +54,7 @@ public partial class Admin_Create : System.Web.UI.Page
         if (imgUp.HasFile)
         {
             UploadPhoto();
-           ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), TABLE_TOUR, "2"));
+            ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), TABLE_TOUR, "2"));
         }
     }
 
@@ -60,10 +77,10 @@ public partial class Admin_Create : System.Web.UI.Page
         var values = new Dictionary<Column, object>
         {
             { PackageName, txtPackName.Text },
-            { TourType, tourType.SelectedValue },
+            { Tour.TourType, tourType.SelectedValue },
             { Category, category.SelectedValue },
             { Duration, duration.Text},
-            { InDate, DateTime.Now.ToString() },
+            { InDate, DateTime.Now },
             { City, city.Text },
             { Country, country.Text },
             { DesUrl, link.Text },

@@ -27,7 +27,8 @@ public class Common
             if (typeof(Column).IsAssignableFrom(field.FieldType))
             {
                 Column column = (Column)field.GetValue(null);
-                columnNames.Add(column.Name);
+                if(column.Exclude == false)
+                    columnNames.Add(column.Name);
             }
         }
 
@@ -37,6 +38,11 @@ public class Common
     public static string ColumnName(string columnName)
     {
         return columnName.Replace("@", "");
+    }
+
+    public static string ColumnParam(string columnName)
+    {
+        return "@" + columnName;
     }
 
     public static string ImagePath(string fileName)
@@ -51,8 +57,8 @@ public class Common
 
         foreach (var item in columns)
         {
-            sqlString += ColumnName(item) + ", ";
-            valuesStr += item + ", "; //These 2 charactors
+            sqlString += item + ", ";
+            valuesStr += ColumnParam(item) + ", "; //These 2 charactors
         }
 
         sqlString = sqlString.Remove(sqlString.Length - 2, 1) + ")";
@@ -66,7 +72,7 @@ public class Common
         string sqlString = "Update " + tableName + " Set ";
         foreach (var item in columns)
         {
-            sqlString += ColumnName(item) + " = " + item + ", ";
+            sqlString += item + " = " + ColumnParam(item) + ", ";
         }
         sqlString = sqlString.Remove(sqlString.Length - 2, 1);
         sqlString += " WHERE ID = " + id;
@@ -123,8 +129,8 @@ public class Common
             {
                 foreach (var item in columns)
                 {
-                    Log("Column Name: " + item.Key.Name + " Type: " + item.Key.Type + " Value: " + item.Value);
-                    command.Parameters.AddWithValue(item.Key.Name, item.Key.Type).Value = item.Value;
+                    Log("Column Name: " + ColumnParam(item.Key.Name) + " Type: " + item.Key.Type + " Value: " + item.Value);
+                    command.Parameters.AddWithValue(ColumnParam(item.Key.Name), item.Key.Type).Value = item.Value;
                 }
                 command.ExecuteNonQuery();
             }

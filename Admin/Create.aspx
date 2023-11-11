@@ -8,7 +8,7 @@
     <h2 class="text-center">Add new tour place</h2>
     <div class="row g-3">
         <div class="col-12">
-            <label for="txtPackName" class="form-label">Package Name</label>
+            <label for="txtPackName" class="form-label">Package Name <%# Tour.PackageName.Name %></label>
             <asp:TextBox runat="server" ID="txtPackName" CssClass="form-control"></asp:TextBox>
         </div>
         <div class="col-md-6">
@@ -45,11 +45,11 @@
         </div>
         <div class="col-12">
             <div class="form-check">
-                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer" />
+                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer" OnCheckedChanged="chkAgr_CheckedChanged" />
             </div>
         </div>
         <div class="col-12">
-            <asp:Button runat="server" ID="cmdAddBtn" Text="Add New" class="btn btn-primary" OnClick="CmdUpdate_Click" />
+            <asp:Button runat="server" ID="cmdAddBtn" Text="Add New" class="btn btn-primary" OnClick="CmdAdd_Click" />
         </div>
     </div>
 </asp:Content>
