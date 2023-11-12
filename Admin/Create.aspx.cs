@@ -24,7 +24,6 @@ public partial class Admin_Create : System.Web.UI.Page
         tourId = Request.QueryString.Get("pid");
         if (!string.IsNullOrEmpty(tourId))
         {
-            chkAgr.Visible = false;
             cmdDelete.Visible = true;
             mImgUrl.Visible = true;
             cmdSubmit.Text = "Update";
@@ -33,13 +32,6 @@ public partial class Admin_Create : System.Web.UI.Page
             {
                 PopulateData();
             }
-        }
-
-        if (!IsPostBack)
-        {
-            chkAgr.Checked = false;
-            cmdSubmit.Enabled = false;
-            cmdDelete.Enabled = false;
         }
     }
 

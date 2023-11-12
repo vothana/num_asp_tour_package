@@ -55,7 +55,7 @@
                         </div>
                         <div class="modal-body">
                             <asp:Image Width="90%" ID="mImgUrl" Visible="false" runat="server" />
-                            <asp:FileUpload runat="server" ID="imgUp" CssClass="form-control" />
+                            <asp:FileUpload runat="server" ID="imgUp" CssClass="form-control"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Save</button>
@@ -67,21 +67,36 @@
 
         <div class="col-12">
             <div class="form-check">
-                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer" OnCheckedChanged="chkAgr_CheckedChanged" AutoPostBack="true" />
+                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer"/>
             </div>
         </div>
         <div class="col-12">
-            <asp:Button runat="server" ID="cmdSubmit" Text="Create" class="btn btn-primary" OnClick="CmdSubmit_Click" />
-            <asp:Button runat="server" ID="cmdDelete" Text="Delete" Visible="false" class="btn btn-primary" OnClick="DeleteRecord" />
+            <asp:Button runat="server" ID="cmdSubmit" Text="Create" CssClass="btn btn-primary" OnClick="CmdSubmit_Click" />
+            <asp:Button runat="server" ID="cmdDelete" Text="Delete" Visible="false" CssClass="btn btn-primary" OnClick="DeleteRecord" />
         </div>
     </div>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentScript" runat="Server">
     <script>
+
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const pId = urlParams.get('pId');
+
+        const checkbox = document.getElementById("Form_chkAgr");
+        const cmdSubmit = document.getElementById("Form_cmdSubmit");
+        const cmdDelete = document.getElementById("Form_cmdDelete");
+
+        checkbox.addEventListener('change', (event) => {
+            if (event.currentTarget.checked) {
+                cmdSubmit.removeAttribute('disabled');
+                cmdDelete.removeAttribute('disabled');
+            } else {
+                cmdSubmit.setAttribute('disabled', 'disabled')
+                cmdDelete.setAttribute('disabled', 'disabled')
+            }
+        })
 
         if (pId !== null && pId.length > 0) {
             const title = document.getElementById("pageTittle");

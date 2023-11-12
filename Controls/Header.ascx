@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="VB" AutoEventWireup="false" CodeFile="Header.ascx.vb" Inherits="Admin_Controls_Header" %>
         <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-fixed-top ">
         <div class="container-fluid p-3" style="background-color: black";>
-            <a class="navbar-brand text-white" href="#">NUM ASP.NET</a>
+            <a class="navbar-brand text-white" href="Index.aspx">NUM ASP.NET</a>
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

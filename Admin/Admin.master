@@ -17,15 +17,12 @@
 <body>
     <uc:Header runat="server" ID="HeaderControl" />
 
-
     <div class="container mt-5">
         <form id="form1" runat="server">
             <asp:ContentPlaceHolder ID="Form" runat="server">
             </asp:ContentPlaceHolder>
         </form>
     </div>
-
-
 
     <uc:Footer runat="server" ID="FooterControl" />
 
