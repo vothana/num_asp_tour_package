@@ -27,7 +27,7 @@ public class Common
             if (typeof(Column).IsAssignableFrom(field.FieldType))
             {
                 Column column = (Column)field.GetValue(null);
-                if(column.Exclude == false)
+                if (column.Exclude == false)
                     columnNames.Add(column.Name);
             }
         }
@@ -48,6 +48,14 @@ public class Common
     public static string ImagePath(string fileName)
     {
         return "Images/" + fileName;
+    }
+
+    public static string JoinTable(string mainTable, string joinTable, string joinOn)
+    {
+        var m = mainTable;
+        var j = joinTable;
+        return String.Format("{0} AS {1} INNER JOIN {2} AS {3} ON {4}.{5} = {6}.{7} ",
+            m, m, j, j, m, joinOn, j, joinOn);
     }
 
     public static string InsertCmd(List<string> columns, string tableName)
@@ -82,7 +90,7 @@ public class Common
 
     public static void SetList(DropDownList control, String table, string value, string name)
     {
-        DataTable data = SelectAll(table);
+        DataTable data = SelectAll(table, null);
         control.DataSource = data;
         control.DataTextField = name;
         control.DataValueField = value;
@@ -90,12 +98,12 @@ public class Common
     }
 
 
-    public static DataTable SelectAll(string tableName)
+    public static DataTable SelectAll(string tableName, string whereCondition)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
             conn.Open();
-            using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM " + tableName, conn))
+            using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM " + tableName + (string.IsNullOrEmpty(whereCondition) ? "" : " WHERE " + whereCondition), conn))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -104,7 +112,8 @@ public class Common
         }
     }
 
-    public static void Delete(string tableName, string id) {
+    public static void Delete(string tableName, string id)
+    {
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
             conn.Open();
@@ -134,7 +143,7 @@ public class Common
                 }
                 command.ExecuteNonQuery();
             }
-            conn.Close();
+            Log("Sucessfully!");
         }
     }
 }

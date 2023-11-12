@@ -9,58 +9,92 @@ using static Tour;
 public partial class Admin_Create : System.Web.UI.Page
 {
     private string userName;
-
-    private static readonly string TABLE_TOUR = "tbltourpackages";
-    private static readonly string TABLE_CATEGORY = "tblCategories";
-    private static readonly string TABLE_TYPE = "tblTourTypes";
+    private string tourId;
+    private string imageName;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-       // MembershipUser currentUser = Membership.GetUser();
+        // MembershipUser currentUser = Membership.GetUser();
         //userName = currentUser.UserName;
         userName = "Vothana";
 
-        SetList(tourType, TABLE_TYPE, "TYPEID", "Type");
-        SetList(category, TABLE_CATEGORY, "CATID", "Category");
+        SetList(tourType, TourType.Table.Name, TourType.TypeId.Name, TourType.TypeName.Name);
+        SetList(category, TourCategory.Table.Name, TourCategory.CatId.Name, TourCategory.Category.Name);
 
-/*        if (!IsPostBack)
+        tourId = Request.QueryString.Get("pid");
+        if (!string.IsNullOrEmpty(tourId))
+        {
+            chkAgr.Visible = false;
+            cmdDelete.Visible = true;
+            mImgUrl.Visible = true;
+            cmdSubmit.Text = "Update";
+
+            if (!IsPostBack)
+            {
+                PopulateData();
+            }
+        }
+
+        if (!IsPostBack)
         {
             chkAgr.Checked = false;
-            cmdAddBtn.Enabled = false;
-        }*/
+            cmdSubmit.Enabled = false;
+            cmdDelete.Enabled = false;
+        }
     }
 
     protected void chkAgr_CheckedChanged(object sender, EventArgs e)
     {
-        Log("SSSSS: " + chkAgr.Checked);
-
         if (chkAgr.Checked == true)
-            cmdAddBtn.Enabled = true;
+        {
+            cmdDelete.Enabled = true;
+            cmdSubmit.Enabled = true;
+        }
         else
-            cmdAddBtn.Enabled = false;
-    }
-
-    protected void CmdAdd_Click(object sender, EventArgs e)
-    {
-        if (imgUp.HasFile)
         {
-            UploadPhoto();
-            ExecuteNonQuery(SetValues(), InsertCmd(ColumnNames(typeof(Tour)), TABLE_TOUR));
+            cmdDelete.Enabled = false;
+            cmdSubmit.Enabled = false;
         }
     }
 
-    protected void CmdUpdate_Click(object sender, EventArgs e)
+    protected void CmdSubmit_Click(object sender, EventArgs e)
     {
-        if (imgUp.HasFile)
+        if (cmdSubmit.Text == "Update")
+            Update();
+        else
+            AddNew();
+    }
+
+    private void AddNew()
+    {
+        if (imgUp.HasFile && cmdSubmit.Text != "Update")
         {
             UploadPhoto();
-            ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), TABLE_TOUR, "2"));
+            ExecuteNonQuery(SetValues(), InsertCmd(ColumnNames(typeof(Tour)), Tour.Table.Name));
         }
     }
 
-    protected void CmdDelete_Click(object sender, EventArgs e)
+    private void Update()
     {
-        Delete(TABLE_TOUR, "6");
+        if (imgUp.HasFile &&  imgUp.FileName != imageName)
+        {
+            var file = "~\\" + imageName;
+            bool exists = System.IO.File.Exists(Server.MapPath(file));
+            if(exists)
+            {
+                Log("DELETING FILE: " + file);
+                System.IO.File.Delete(Server.MapPath(file));
+            }
+
+            UploadPhoto();
+        }
+
+        ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), Tour.Table.Name, tourId));
+    }
+
+    protected void DeleteRecord(object sender, EventArgs e)
+    {
+        Delete(Tour.Table.Name, tourId);
     }
 
     private void UploadPhoto()
@@ -69,7 +103,34 @@ public partial class Admin_Create : System.Web.UI.Page
         bool exists = System.IO.Directory.Exists(Server.MapPath(folder));
         if (!exists)
             System.IO.Directory.CreateDirectory(Server.MapPath(folder));
+
+        Log("IMAGE : " + imgUp.FileName);
         imgUp.SaveAs(Server.MapPath(folder) + "/" + imgUp.FileName);
+    }
+
+    private void PopulateData()
+    {
+        if (!string.IsNullOrEmpty(tourId))
+        {
+            Log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+            string whereCondition = Tour.ID.Name + " = " + tourId;
+            DataTable dataTable = SelectAll(Tour.Table.Name, whereCondition);
+            var data = dataTable.Rows[0];
+            if (data != null)
+            {
+                txtPackName.Text = data[PackageName.Name].ToString();
+                tourType.Text = data[Tour.TourType.Name].ToString();
+                category.Text = data[Category.Name].ToString();
+                duration.Text = data[Duration.Name].ToString();
+                city.Text = data[City.Name].ToString();
+                country.Text = data[Country.Name].ToString();
+                link.Text = data[DesUrl.Name].ToString();
+                description.Text = data[Description.Name].ToString();
+
+                imageName = data[ImageUrl.Name].ToString();
+                mImgUrl.ImageUrl = "~/" + imageName;
+            }
+        }
     }
 
     private Dictionary<Column, object> SetValues()

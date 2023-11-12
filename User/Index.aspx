@@ -1,9 +1,35 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/User.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="User_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/User.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="User_Index" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Form" runat="Server">
-    <asp:ListView ID="ListView1" runat="server" DataKeyNames="ID" DataSourceID="SqlDataSource1">
+    <asp:ListView ID="ListView1" runat="server" GroupPlaceholderID="groupPlacehoder1" ItemPlaceholderID="itemPlaceholder1" OnPagePropertiesChanging="OnPagePropertiesChanging">
+        <LayoutTemplate>
+            <table style="width: 900px">
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <asp:PlaceHolder runat="server" ID="groupPlacehoder1"></asp:PlaceHolder>
+                <tr>
+                    <td colspan="2">
+
+                        <asp:DataPager ID="DataPager1" runat="server" PagedControlID="ListView1" PageSize="5">
+                            <Fields>
+                                <asp:NextPreviousPagerField ButtonType="Link" ShowFirstPageButton="True" ShowNextPageButton="false" ShowPreviousPageButton="False" />
+                                <asp:NumericPagerField ButtonCount="10" />
+                                <asp:NextPreviousPagerField ButtonType="Link" ShowLastPageButton="True" ShowNextPageButton="false" ShowPreviousPageButton="False" />
+                            </Fields>
+                        </asp:DataPager>
+                    </td>
+                </tr>
+            </table>
+        </LayoutTemplate>
+        <GroupTemplate>
+            <tr>
+                <asp:PlaceHolder runat="server" ID="itemPlaceholder1"></asp:PlaceHolder>
+            </tr>
+        </GroupTemplate>
         <ItemTemplate>
             <table style="width: 900px">
                 <tr>
@@ -34,21 +60,6 @@
                 </tr>
             </table>
         </ItemTemplate>
-        <LayoutTemplate>
-            <div id="itemPlaceholderContainer" runat="server" style="">
-                <span runat="server" id="itemPlaceholder" />
-            </div>
-            <div style="">
-                <asp:DataPager ID="DataPager1" runat="server" PageSize="5">
-                    <Fields>
-                        <asp:NextPreviousPagerField ButtonType="Link" ShowFirstPageButton="True" ShowNextPageButton="False" ShowPreviousPageButton="true" />
-                        <asp:NumericPagerField ButtonCount="10" />
-                        <asp:NextPreviousPagerField ButtonType="Link" ShowLastPageButton="True" ShowNextPageButton="true" ShowPreviousPageButton="False" />
-                    </Fields>
-                </asp:DataPager>
-            </div>
-        </LayoutTemplate>
     </asp:ListView>
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TourPackageConnectionString %>" ProviderName="<%$ ConnectionStrings:TourPackageConnectionString.ProviderName %>" SelectCommand="SELECT tblCategories.*, tblCategories.CATID AS Expr1, tblCategories.CATEGORY AS Expr2, tblTourPackages.*, tblTourTypes.*, tblTourTypes.TYPEID AS Expr3, tblTourTypes.TYPE AS Expr4, tblTourPackages.CATID AS Expr5, tblTourPackages.IN_DATE AS Expr7, tblTourPackages.IMAGE_URL AS Expr8, tblTourPackages.DESURL AS Expr9, tblTourPackages.DESCRIPTION AS Expr10, tblTourPackages.DURATION AS Expr11, tblTourPackages.CITY AS Expr12, tblTourPackages.COUNTRY AS Expr13, tblTourPackages.TYPEID AS Expr14, tblTourPackages.PACKAGENAME AS Expr15, tblTourPackages.ID AS Expr16, tblTourPackages.USERNAME AS Expr6 FROM tblCategories INNER JOIN tblTourPackages ON tblCategories.CATID = tblTourPackages.CATID INNER JOIN tblTourTypes ON tblTourPackages.TYPEID = tblTourTypes.TYPEID"></asp:SqlDataSource>
 </asp:Content>
 

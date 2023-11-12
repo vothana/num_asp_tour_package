@@ -13,6 +13,12 @@ public class Column
     public SqlDbType Type { get; }
     public bool Exclude { get; } = false;
 
+    private Column(string name, bool exclude)
+    {
+        Name = name;
+        Exclude = exclude;
+    }
+
     private Column(string name, SqlDbType type)
     {
         Name = name;
@@ -34,5 +40,10 @@ public class Column
     public static Column Create(string name, SqlDbType type, bool exclude)
     {
         return new Column(name, type, exclude);
+    }
+
+    public static Column Create(string name,  bool exclude)
+    {
+        return new Column(name, exclude);
     }
 }

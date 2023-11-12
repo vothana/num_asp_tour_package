@@ -6,6 +6,7 @@ using System.Web;
 
 public class TourType : Column
 {
-    public static readonly Column TypeId = Create("typeId", SqlDbType.Int);
+    public static readonly Column Table = Create("tblTourTypes", true);
+    public static readonly Column TypeId = Create("typeId", SqlDbType.Int, true);
     public static readonly Column TypeName = Create("type", SqlDbType.NVarChar);
 }

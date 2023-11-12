@@ -7,6 +7,7 @@ using System.Web;
 
 public class TourCategory : Column
 {
+    public static readonly Column Table = Create("tblCategories", true);
     public static readonly Column CatId = Create("catId", SqlDbType.Int);
     public static readonly Column Category = Create("category", SqlDbType.NVarChar);
 }
