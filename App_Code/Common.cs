@@ -112,7 +112,7 @@ public class Common
         }
     }
 
-    public static void Delete(string tableName, string id)
+    public static bool Delete(string tableName, string id)
     {
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
@@ -123,11 +123,13 @@ public class Common
 
                 int rowsAffected = command.ExecuteNonQuery();
                 Log($"Rows affected: {rowsAffected}");
+
+                return rowsAffected > 0;
             }
         }
     }
 
-    public static void ExecuteNonQuery(Dictionary<Column, object> columns, string sqlString)
+    public static bool ExecuteNonQuery(Dictionary<Column, object> columns, string sqlString)
     {
         Log("SQL String: " + sqlString);
 
@@ -141,9 +143,8 @@ public class Common
                     Log("Column Name: " + ColumnParam(item.Key.Name) + " Type: " + item.Key.Type + " Value: " + item.Value);
                     command.Parameters.AddWithValue(ColumnParam(item.Key.Name), item.Key.Type).Value = item.Value;
                 }
-                command.ExecuteNonQuery();
+                 return command.ExecuteNonQuery()  >  0;
             }
-            Log("Sucessfully!");
         }
     }
 }

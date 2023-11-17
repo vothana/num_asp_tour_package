@@ -1,4 +1,7 @@
-﻿<%@ Control Language="VB" AutoEventWireup="false" CodeFile="Header.ascx.vb" Inherits="Admin_Controls_Header" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Header.ascx.cs" Inherits="Controls_Header" %>
+
+
+
         <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-fixed-top ">
         <div class="container-fluid p-3" style="background-color: black";>
             <a class="navbar-brand text-white" href="Index.aspx">NUM ASP.NET</a>

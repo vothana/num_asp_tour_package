@@ -1,4 +1,13 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="Admin_Index" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="Admin_Index"  EnableEventValidation="false"%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <link href="Style.css" rel="stylesheet" />
+    <style>
+        .image{
+            border-radius: 15px;
+        }
+    </style>
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Form" runat="Server">
     <asp:ListView ID="ListView1" runat="server" GroupPlaceholderID="groupPlacehoder1" ItemPlaceholderID="itemPlaceholder1" OnPagePropertiesChanging="OnPagePropertiesChanging" OnItemCommand="ListView1_ItemCommand">
@@ -32,7 +41,7 @@
                 <tr>
                     <td style="padding: 10px; vertical-align: central; width: 300px">
                         <asp:HyperLink runat="server" ID="imgButton" NavigateUrl='<%# Eval(Tour.DesUrl.Name) %>'>
-                            <asp:Image ID="imgUrl" Width="300px" runat="server" ImageUrl='<%# "~/" + Eval(Tour.ImageUrl.Name) %>' />
+                            <asp:Image CssClass="image"  ID="imgUrl" Width="300px" runat="server" ImageUrl='<%# "~/" + Eval(Tour.ImageUrl.Name) %>' />
                         </asp:HyperLink>
                     </td>
                     <td style="padding: 10px; vertical-align: top; font-size: 12pt; width: 600px">
@@ -54,8 +63,6 @@
                         <br />
                         <asp:TextBox Visible="false" ID="txtId" runat="server" Text='<%# Eval(Tour.ID.Name) %>' />
                          <br /><br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                     <asp:LinkButton CommandName="editImage" ID="editImage" Text="Edit Image" runat="server" Font-Bold="false" ForeColor="#009999" Font-Italic="true"></asp:LinkButton>
                     &nbsp;&nbsp;&nbsp;&nbsp; 
                     <asp:LinkButton CommandName="editInfo" ID="editInfo" Text="Edit Info" runat="server" Font-Bold="false" ForeColor="#009999" Font-Italic="true"></asp:LinkButton>
                 </td>

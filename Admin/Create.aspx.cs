@@ -22,10 +22,12 @@ public partial class Admin_Create : System.Web.UI.Page
         SetList(category, TourCategory.Table.Name, TourCategory.CatId.Name, TourCategory.Category.Name);
 
         tourId = Request.QueryString.Get("pid");
+        cmdDelete.Enabled = false;
+        cmdSubmit.Enabled = false;
+
         if (!string.IsNullOrEmpty(tourId))
         {
             cmdDelete.Visible = true;
-            mImgUrl.Visible = true;
             cmdSubmit.Text = "Update";
 
             if (!IsPostBack)
@@ -59,20 +61,31 @@ public partial class Admin_Create : System.Web.UI.Page
 
     private void AddNew()
     {
-        if (imgUp.HasFile && cmdSubmit.Text != "Update")
+        if ((imgUp.PostedFile.ContentLength > 0) && cmdSubmit.Text != "Update")
         {
             UploadPhoto();
-            ExecuteNonQuery(SetValues(), InsertCmd(ColumnNames(typeof(Tour)), Tour.Table.Name));
+            bool result = ExecuteNonQuery(SetValues(), InsertCmd(ColumnNames(typeof(Tour)), Tour.Table.Name));
+            if (result) {
+                sucessLeel.Visible = true;
+                Clear();
+            }
+            else
+            {
+                sucessLeel.Visible = true;
+                sucessLeel.Text = "Fail";
+            }
         }
     }
 
+
     private void Update()
     {
-        if (imgUp.HasFile &&  imgUp.FileName != imageName)
+        var fileName = imgUp.PostedFile.FileName;
+        if ((imgUp.PostedFile.ContentLength > 0) && (fileName != imageName))
         {
             var file = "~\\" + imageName;
             bool exists = System.IO.File.Exists(Server.MapPath(file));
-            if(exists)
+            if (exists)
             {
                 Log("DELETING FILE: " + file);
                 System.IO.File.Delete(Server.MapPath(file));
@@ -81,12 +94,31 @@ public partial class Admin_Create : System.Web.UI.Page
             UploadPhoto();
         }
 
-        ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), Tour.Table.Name, tourId));
+        bool result =  ExecuteNonQuery(SetValues(), UpdateCmd(ColumnNames(typeof(Tour)), Tour.Table.Name, tourId));
+        if (result)
+        {
+            sucessLeel.Visible = true;
+            Clear();
+        }
+        else
+        {
+            sucessLeel.Visible = true;
+            sucessLeel.Text = "Fail";
+        }
     }
 
     protected void DeleteRecord(object sender, EventArgs e)
     {
-        Delete(Tour.Table.Name, tourId);
+       var result = Delete(Tour.Table.Name, tourId);
+        if (result)
+        {
+            Response.Redirect("~\\Admin\\Index.aspx");
+        }
+    }
+
+    protected void Cancel(object sender, EventArgs e)
+    {
+        Response.Redirect("~\\Admin\\Index.aspx");
     }
 
     private void UploadPhoto()
@@ -96,15 +128,15 @@ public partial class Admin_Create : System.Web.UI.Page
         if (!exists)
             System.IO.Directory.CreateDirectory(Server.MapPath(folder));
 
-        Log("IMAGE : " + imgUp.FileName);
-        imgUp.SaveAs(Server.MapPath(folder) + "/" + imgUp.FileName);
+        Log("IMAGE : " + imgUp.PostedFile.FileName);
+        imageName = imgUp.PostedFile.FileName;
+        imgUp.PostedFile.SaveAs(Server.MapPath(folder) + "/" + imageName);
     }
 
     private void PopulateData()
     {
         if (!string.IsNullOrEmpty(tourId))
         {
-            Log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             string whereCondition = Tour.ID.Name + " = " + tourId;
             DataTable dataTable = SelectAll(Tour.Table.Name, whereCondition);
             var data = dataTable.Rows[0];
@@ -137,11 +169,21 @@ public partial class Admin_Create : System.Web.UI.Page
             { City, city.Text },
             { Country, country.Text },
             { DesUrl, link.Text },
-            { ImageUrl, ImagePath(imgUp.FileName) },
+            { ImageUrl, ImagePath(imageName) },
             { Description, description.Text },
             { Username, userName }
         };
 
         return values;
+    }
+
+    private void Clear()
+    {
+        txtPackName.Text =
+            duration.Text =
+            country.Text =
+             city.Text =
+             description.Text =
+            string.Empty;
     }
 }

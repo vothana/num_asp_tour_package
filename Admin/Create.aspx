@@ -1,7 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="Create.aspx.cs" Inherits="Admin_Create" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true" CodeFile="Create.aspx.cs" Inherits="Admin_Create"  EnableEventValidation="false"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="Style.css" rel="stylesheet" />
+    <style>
+        .right{
+            margin-left: 500px;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="FormContent" ContentPlaceHolderID="Form" runat="Server">
@@ -40,9 +45,12 @@
             <asp:TextBox runat="server" ID="description" TextMode="MultiLine" CssClass="form-control" Rows="5"></asp:TextBox>
         </div>
         <div class="col-md-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCenter" id="btnModal">
-                Upload Image
-            </button>
+            <div style="display: flex;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCenter" id="btnModal">
+                    Upload Image
+                </button>
+                <p style="margin-left: 20px" id="image-name"></p>
+            </div>
 
             <div class="modal fade" id="modalCenter" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -54,8 +62,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <asp:Image Width="90%" ID="mImgUrl" Visible="false" runat="server" />
-                            <asp:FileUpload runat="server" ID="imgUp" CssClass="form-control"/>
+                            <asp:Image Width="90%" ID="mImgUrl" runat="server" />
+                            <input type="file" name="file" onchange="previewFile()"  runat="server" ID="imgUp" class="form-control" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Save</button>
@@ -65,14 +73,16 @@
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12" style="margin-top: 50px">
             <div class="form-check">
-                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer"/>
+                <asp:CheckBox runat="server" ID="chkAgr" Text="&nbsp;&nbsp;Check to confirm the condtion" CssClass="c-pointer" />
             </div>
         </div>
         <div class="col-12">
             <asp:Button runat="server" ID="cmdSubmit" Text="Create" CssClass="btn btn-primary" OnClick="CmdSubmit_Click" />
             <asp:Button runat="server" ID="cmdDelete" Text="Delete" Visible="false" CssClass="btn btn-primary" OnClick="DeleteRecord" />
+             <asp:Label CssClass="form-label text-primary" runat="server" ID="sucessLeel" Visible="false"> Successfully !</asp:Label>
+            <asp:Button runat="server" ID="Button1" Text="Cancel"  CssClass="btn btn-danger right" OnClick="Cancel" />
         </div>
     </div>
 </asp:Content>
@@ -106,6 +116,26 @@
             modalCenterTitle.innerHTML = "Update Image";
             btnModal.innerHTML = "Update Image";
         }
+
+        function previewFile() {
+            const imageN = document.getElementById("image-name");
+            
+            var preview = document.querySelector('#<%=mImgUrl.ClientID %>');
+             var file = document.querySelector('#<%=imgUp.ClientID %>');
+             var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                let ssss = file.value;
+                imageN.innerHTML = ssss.substring(ssss.lastIndexOf('\\') + 1); 
+             }
+
+            if (file.files[0]) {
+                reader.readAsDataURL(file.files[0]);
+             } else {
+                 preview.src = "";
+             }
+         }
     </script>
 </asp:Content>
 

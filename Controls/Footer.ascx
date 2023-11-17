@@ -1,4 +1,5 @@
-﻿'<%@ Control Language="VB" AutoEventWireup="false" CodeFile="Footer.ascx.vb" Inherits="Admin_Controls_Footer" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Footer.ascx.cs" Inherits="Controls_Footer"  %>
+
 
     <div class="my-5">
         <!-- Footer -->
@@ -28,7 +29,7 @@
                         <!-- Grid column -->
                         <div class="col-md-2">
                             <h6 class="text-uppercase font-weight-bold">
-                                <a href="#!" class="text-white">Awards</a>
+                                <a href="#!" class="text-white" id="clientSide" runat="server">Awards</a>
                             </h6>
                         </div>
                         <!-- Grid column -->
@@ -36,7 +37,7 @@
                         <!-- Grid column -->
                         <div class="col-md-2">
                             <h6 class="text-uppercase font-weight-bold">
-                                <a href="#!" class="text-white">Help</a>
+                                <a href="Create.aspx" class="text-white" runat="server" id="createBtn">Home</a>
                             </h6>
                         </div>
                         <!-- Grid column -->
@@ -44,7 +45,7 @@
                         <!-- Grid column -->
                         <div class="col-md-2">
                             <h6 class="text-uppercase font-weight-bold">
-                                <a href="#!" class="text-white">Contact</a>
+                                <a href="Login.aspx" class="text-white" runat="server" id="logOutBtn" onserverclick="clickLogout">Login</a>
                             </h6>
                         </div>
                         <!-- Grid column -->
