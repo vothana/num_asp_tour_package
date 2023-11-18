@@ -37,7 +37,7 @@
                         <!-- Grid column -->
                         <div class="col-md-2">
                             <h6 class="text-uppercase font-weight-bold">
-                                <a href="Create.aspx" class="text-white" runat="server" id="createBtn">Home</a>
+                                <a href="#" class="text-white" runat="server" id="createBtn">Home</a>
                             </h6>
                         </div>
                         <!-- Grid column -->
@@ -45,7 +45,7 @@
                         <!-- Grid column -->
                         <div class="col-md-2">
                             <h6 class="text-uppercase font-weight-bold">
-                                <a href="Login.aspx" class="text-white" runat="server" id="logOutBtn" onserverclick="clickLogout">Login</a>
+                                <a href="#" class="text-white" runat="server" id="logOutBtn" onserverclick="clickLogout">Login</a>
                             </h6>
                         </div>
                         <!-- Grid column -->

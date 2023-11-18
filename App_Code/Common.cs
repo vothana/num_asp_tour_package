@@ -100,10 +100,13 @@ public class Common
 
     public static DataTable SelectAll(string tableName, string whereCondition)
     {
+        string sqlStr = "SELECT * FROM " + tableName + (string.IsNullOrEmpty(whereCondition) ? "" :  whereCondition);
+       
+        Log("SELECT SQL: " + sqlStr);
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
             conn.Open();
-            using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM " + tableName + (string.IsNullOrEmpty(whereCondition) ? "" : " WHERE " + whereCondition), conn))
+            using (SqlDataAdapter adapter = new SqlDataAdapter(sqlStr, conn))
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);

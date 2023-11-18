@@ -39,5 +39,9 @@ public partial class Controls_Footer : System.Web.UI.UserControl
             logOutBtn.HRef = "~\\Admin\\Login.aspx";
             Response.Redirect("~\\Admin\\Login.aspx");
         }
+        else
+        {
+            Response.Redirect("~\\Admin\\Login.aspx");
+        }
     }
 }

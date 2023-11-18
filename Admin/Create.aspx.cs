@@ -14,9 +14,8 @@ public partial class Admin_Create : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // MembershipUser currentUser = Membership.GetUser();
-        //userName = currentUser.UserName;
-        userName = "Vothana";
+        MembershipUser currentUser = Membership.GetUser();
+        userName = currentUser.UserName;
 
         SetList(tourType, TourType.Table.Name, TourType.TypeId.Name, TourType.TypeName.Name);
         SetList(category, TourCategory.Table.Name, TourCategory.CatId.Name, TourCategory.Category.Name);
@@ -137,7 +136,7 @@ public partial class Admin_Create : System.Web.UI.Page
     {
         if (!string.IsNullOrEmpty(tourId))
         {
-            string whereCondition = Tour.ID.Name + " = " + tourId;
+            string whereCondition = " WHERE " + Tour.ID.Name + " = " + tourId;
             DataTable dataTable = SelectAll(Tour.Table.Name, whereCondition);
             var data = dataTable.Rows[0];
             if (data != null)
@@ -162,7 +161,7 @@ public partial class Admin_Create : System.Web.UI.Page
         var values = new Dictionary<Column, object>
         {
             { PackageName, txtPackName.Text },
-            { Tour.TourType, tourType.SelectedValue },
+            { Tour.TourType, tourType.SelectedValue},
             { Category, category.SelectedValue },
             { Duration, duration.Text},
             { InDate, DateTime.Now },
@@ -184,6 +183,8 @@ public partial class Admin_Create : System.Web.UI.Page
             country.Text =
              city.Text =
              description.Text =
+             link.Text =
             string.Empty;
+        chkAgr.Checked = false;
     }
 }

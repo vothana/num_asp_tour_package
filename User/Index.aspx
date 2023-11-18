@@ -1,14 +1,32 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/User.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="User_Index"  EnableEventValidation="false"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/User/User.master" AutoEventWireup="true" CodeFile="Index.aspx.cs" Inherits="User_Index" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
-        .image{
+        .image {
             border-radius: 15px;
         }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Form" runat="Server">
+
+    <asp:Repeater ID="CategoryRepeater" runat="server">
+        <HeaderTemplate>
+            <ul class="nav nav-pills mb-5">
+        </HeaderTemplate>
+
+        <ItemTemplate>
+            <li class="nav-item c-pointer" style="cursor: pointer">
+                <a class='nav-link' aria-current="page" onclick="clickEd2(<%# Eval(TourCategory.CatId.Name) %>)">
+                    <%# Eval(TourCategory.Category.Name) %>
+                </a>
+            </li>
+        </ItemTemplate>
+        <FooterTemplate>
+            </ul>
+        </FooterTemplate>
+    </asp:Repeater>
+
     <asp:ListView ID="ListView1" runat="server" GroupPlaceholderID="groupPlacehoder1" ItemPlaceholderID="itemPlaceholder1" OnPagePropertiesChanging="OnPagePropertiesChanging">
         <LayoutTemplate>
             <table style="width: 900px">
@@ -41,7 +59,7 @@
                 <tr>
                     <td style="padding: 10px; vertical-align: central; width: 300px">
                         <asp:HyperLink runat="server" ID="imgButton" NavigateUrl='<%# Eval(Tour.DesUrl.Name) %>'>
-                            <asp:Image CssClass="image"   ID="imgUrl" Width="300px" runat="server" ImageUrl='<%# "~/" + Eval(Tour.ImageUrl.Name) %>' />
+                            <asp:Image CssClass="image" ID="imgUrl" Width="300px" runat="server" ImageUrl='<%# "~/" + Eval(Tour.ImageUrl.Name) %>' />
                         </asp:HyperLink>
                     </td>
                     <td style="padding: 10px; vertical-align: top; font-size: 12pt; width: 600px">
@@ -67,5 +85,21 @@
             </table>
         </ItemTemplate>
     </asp:ListView>
+</asp:Content>
+
+<asp:Content ID="ContentScrript" ContentPlaceHolderID="ContentScript" runat="server">
+    <script>
+        function clickEd2(catId) {
+            const currentUrl = window.location.origin;
+            const path = window.location.pathname;
+
+            console.log(currentUrl);
+            if (path.includes("Admin")) {
+                window.location.assign(currentUrl + "/" + path.split("/")[1] + "\\Admin\\Index.aspx?catId=" + catId)
+            } else {
+                window.location.assign(currentUrl + "/" + path.split("/")[1] + "\\Index.aspx?catId=" + catId)
+            }
+        }
+    </script>
 </asp:Content>
 

@@ -17,6 +17,23 @@
 <body>
     <uc:Header runat="server" ID="HeaderControl" />
 
+        <div style="display: flex; flex-direction: row; width: 90%; margin: auto; border-radius: 20px; overflow: hidden; border: 2px solid black">
+        <div style="width: 20%; height: 200px">
+            <asp:Image runat="server" ImageUrl="~\Images\Picture1.jpg" Width="100%" Height="100%" AlternateText="This is picture" ToolTip="This is tool tip" />
+        </div>
+        <div style="width: 20%; height: 200px">
+            <asp:Image runat="server" ImageUrl="~\Images\Picture2.jpg" Width="100%" Height="100%" AlternateText="This is picture" ToolTip="This is tool tip" />
+        </div>
+        <div style="width: 20%; height: 200px">
+            <asp:Image runat="server" ImageUrl="~\Images\Picture3.jpg" Width="100%" Height="100%" AlternateText="This is picture" ToolTip="This is tool tip" />
+        </div>
+        <div style="width: 20%; height: 200px">
+            <asp:Image runat="server" ImageUrl="~\Images\Picture4.jpg" Width="100%" Height="100%" AlternateText="This is picture" ToolTip="This is tool tip" />
+        </div>
+        <div style="width: 20%; height: 200px">
+            <asp:Image runat="server" ImageUrl="~\Images\Picture5.jpg" Width="100%" Height="100%" AlternateText="This is picture" ToolTip="This is tool tip" />
+        </div>
+    </div>
 
     <div class="container mt-5">
         <form id="form1" runat="server">
@@ -26,6 +43,9 @@
     </div>
 
     <uc:Footer runat="server" ID="FooterControl" />
+
+        <asp:ContentPlaceHolder ID="ContentScript" runat="server">
+    </asp:ContentPlaceHolder>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
